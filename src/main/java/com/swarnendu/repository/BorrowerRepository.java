@@ -20,13 +20,23 @@ public class BorrowerRepository implements Repository {
 
     public void processPayment(String borrowerName, String bankName, double lumpSum, int emiNo) {
         String accountKey = bankName + "_" + borrowerName;
+        if(!borrowers.containsKey(accountKey)) {
+            return;
+        }
         Borrower borrower = borrowers.get(accountKey);
         borrower.registerLumpSumPayment(emiNo, lumpSum);
     }
 
     public void processBalance(String borrowerName, String bankName, int emiNo) {
         String accountKey = bankName + "_" + borrowerName;
+        if(!borrowers.containsKey(accountKey)) {
+            return;
+        }
         Borrower borrower = borrowers.get(accountKey);
         borrower.printBalanceForEmiNo(emiNo);
+    }
+
+    public boolean isRepositoryEmpty() {
+        return borrowers.isEmpty();
     }
 }
